@@ -25,11 +25,13 @@ jwt_redis_blocklist = redis.StrictRedis(
     host="localhost", port=6379, db=0, decode_responses=True
 )
 
+
 @jwt.token_in_blocklist_loader
 def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     jti = jwt_payload["jti"]
     token_in_redis = jwt_redis_blocklist.get(jti)
     return token_in_redis is not None
+
 
 @app.route('/register')
 def register():
@@ -40,9 +42,10 @@ def register():
         movies = movs.find()
         for movie in movies:
             id = movie['ID']
-            logs.update_one({'user': auth.username}, {"$set":{id: False}})
+            logs.update_one({'user': auth.username}, {"$set": {id: False}})
         return jsonify(msg="User created")
     return make_response('Could not verify!', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
 
 @app.route('/login')
 def login():
@@ -55,25 +58,29 @@ def login():
                 access_token = create_access_token(identity=auth.username)
                 return access_token
         except:
-            return make_response('Wrong username and password', 401,{'WWW-Authenticate': 'Basic realm="Login Required"'})
+            return make_response('Wrong username and password', 401,
+                                 {'WWW-Authenticate': 'Basic realm="Login Required"'})
     return make_response('Could not verify!', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
 
 @app.route("/logout", methods=["DELETE"])
 @jwt_required()
 def logout():
     jti = get_jwt()["jti"]
-    print(jti)
     jwt_redis_blocklist.set(jti, "", ex=ACCESS_EXPIRES)
     return jsonify(msg="Access token revoked")
 
+
 @app.route('/unprotected')
 def unprotected():
-    return jsonify({'message' : 'Anyone can view this!'})
+    return jsonify({'message': 'Anyone can view this!'})
 
-@app.route('/protected',methods=['POST'])
+
+@app.route('/protected', methods=['POST'])
 @jwt_required()
 def protected():
-    return jsonify({'message' : 'This is only available for people with valid tokens.'})
+    return jsonify({'message': 'This is only available for people with valid tokens.'})
+
 
 @app.route('/add_movie', methods=['POST'])
 @jwt_required()
@@ -82,13 +89,14 @@ def add_movie():
     genre = request.values.get("Genre", type=str, default=None)
     reldate = request.values.get("Release Date", type=str, default=None)
     review = request.values.get("Review", type=str, default=None)
-    id = movs.insert_one({"Title": title,"Genre": genre, "Release Date": reldate, "Review": review})
+    id = movs.insert_one({"Title": title, "Genre": genre, "Release Date": reldate, "Review": review})
     movid = id.inserted_id
     movids = str(movid)
     movs.update_one({"Title": title}, {"$set": {"ID": movids}})
     logs.update_many({}, {"$set": {movids: False}})
     output = {'Movie ID': movids}
     return jsonify("Movie added successfully", output)
+
 
 @app.route('/update_movie', methods=['POST'])
 @jwt_required()
@@ -98,8 +106,8 @@ def update_movie():
     genre = request.values.get("Genre", type=str, default=None)
     reldate = request.values.get("Release Date", type=str, default=None)
     movs.update_one({'_id': ObjectId(id)}, {"$set": {"Title": title, "Genre": genre, "Release Date": reldate}})
-    output = movs.find_one({'_id': ObjectId(id)})
     return jsonify("Movie updated successfully")
+
 
 @app.route('/delete_movie', methods=['DELETE'])
 @jwt_required()
@@ -114,8 +122,9 @@ def delete_movie():
 @app.route('/movies', methods=['GET'])
 def movies():
     movie_list = movs.find()
-    movies = [{k: v[k] for k in v if k != '_id'} for v in movie_list]
-    return jsonify(movies)
+    movie = [{key: value[key] for key in value if key != '_id'} for value in movie_list]
+    return jsonify(movie)
+
 
 @app.route('/upvote-downvote', methods=['POST'])
 @jwt_required()
@@ -124,19 +133,17 @@ def votes():
     upvoter_list = ["Upvoters:-"]
     downvoter_list = ["Downvoters:-"]
     user_check = logs.find_one({'user': user_id})
-    print(user_check)
     movieid = request.values.get("ID", type=str, default=None)
     moviecheck = movs.find_one({'_id': ObjectId(movieid)})
-    print(moviecheck)
     vote = request.values.get("Vote", type=int, default=None)
     if not user_check[movieid]:
         if vote == 1:
-            upvotes = movs.update_one({'_id': ObjectId(movieid)}, {"$inc": {"Upvote":1}})
+            upvotes = movs.update_one({'_id': ObjectId(movieid)}, {"$inc": {"Upvote": 1}})
             if not vots.find_one({'Movie ID': movieid}):
                 vots.insert_one({'Movie ID': movieid, 'Movie Name': moviecheck['Title']})
             vots.update_one({'Movie ID': movieid}, {"$push": {"Upvoters": user_check['user']}})
         elif vote == 0:
-            downvotes = movs.update_one({'_id': ObjectId(movieid)}, {"$inc": {"Downvote":1}})
+            downvotes = movs.update_one({'_id': ObjectId(movieid)}, {"$inc": {"Downvote": 1}})
             if not vots.find_one({'Movie ID': movieid}):
                 vots.insert_one({'Movie ID': movieid, 'Movie Name': moviecheck['Title']})
             vots.update_one({'Movie ID': movieid}, {"$push": {"Downvoters": user_check['user']}})
@@ -151,30 +158,35 @@ def votes():
         downvoter_list.append(output['Downvoters'])
         return jsonify("Already voted", upvoter_list, downvoter_list)
 
+
 @app.route('/sortmovies', methods=['POST'])
 def sortbydate():
     movie_list = movs.find()
     movie_list = list(movie_list)
     sorttype = request.values.get("Sort Type", type=str, default=None)
     if sorttype == "date":
-         for movie in movie_list:
+        for movie in movie_list:
             movie["Release Date"] = datetime.strptime(movie["Release Date"], "%d/%m/%Y").date()
-         sortedmovies = sorted(movie_list,key=lambda i:i["Release Date"])
-         sortedmovieslist = [{k: v[k] for k in v if k != '_id' and  k != 'ID'} for v in sortedmovies]
-         return jsonify(sortedmovieslist)
+        sortedmovies = sorted(movie_list, key=lambda i: i["Release Date"])
+        sortedmovieslist = [{key: value[key] for key in value if key != '_id' and key != 'ID'} for value in
+                            sortedmovies]
+        return jsonify(sortedmovieslist)
     elif sorttype == "genre":
         sortedmovies = sorted(movie_list, key=lambda i: i["Genre"])
-        sortedmovieslist = [{k: v[k] for k in v if k != '_id' and  k != 'ID'} for v in sortedmovies]
+        sortedmovieslist = [{key: value[key] for key in value if key != '_id' and key != 'ID'} for value in
+                            sortedmovies]
         return jsonify(sortedmovieslist)
+
 
 @app.route('/setfavgenre', methods=['POST'])
 @jwt_required()
 def favgenre():
     genre = request.values.get("Genre", type=str, default=None)
-    favgenre = movs.find({"Genre":genre})
+    favgenre = movs.find({"Genre": genre})
     favgenre = list(favgenre)
-    favgenrelist = [{k: v[k] for k in v if k != '_id'} for v in favgenre]
+    favgenrelist = [{key: value[key] for key in value if key != '_id'} for value in favgenre]
     return jsonify(favgenrelist)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
