@@ -1,0 +1,362 @@
+{
+	"info": {
+		"_postman_id": "7d6dc30c-fedb-479a-8252-8e0a7b681db6",
+		"name": "Movie Management Postman Collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23921640"
+	},
+	"item": [
+		{
+			"name": "Unprotected Route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/unprotected",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"unprotected"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Protected Route",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwMTAyNywianRpIjoiMWRiMDYzMTYtM2YwYS00MDczLTk1ZjAtZmIyNTk5OWU2ZTFhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwMTAyNywiZXhwIjoxNjY5NzA0NjI3fQ.co1d9CsQxMRhDFt9v4W4gDg4Jx4RgMo7wGQt_OV2hik",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/protected",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"protected"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Movies",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwMTAyNywianRpIjoiMWRiMDYzMTYtM2YwYS00MDczLTk1ZjAtZmIyNTk5OWU2ZTFhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwMTAyNywiZXhwIjoxNjY5NzA0NjI3fQ.co1d9CsQxMRhDFt9v4W4gDg4Jx4RgMo7wGQt_OV2hik",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Movie",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwNTA0NiwianRpIjoiYzY0NzcyM2QtM2QzMS00MWViLTkwNjItNTc1OWJmZGM2ODIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwNTA0NiwiZXhwIjoxNjY5NzA4NjQ2fQ.QPtcBWZlOmE3it-_6dmvjEVjJG-20anbQcR5CIMTTRA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Title",
+							"value": "The Irishman",
+							"type": "text"
+						},
+						{
+							"key": "Genre",
+							"value": "Crime",
+							"type": "text"
+						},
+						{
+							"key": "Release Date",
+							"value": "24/10/2019",
+							"type": "text"
+						},
+						{
+							"key": "Review",
+							"value": "Awesome Crime drama",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/add_movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"add_movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Movie",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwNTA0NiwianRpIjoiYzY0NzcyM2QtM2QzMS00MWViLTkwNjItNTc1OWJmZGM2ODIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwNTA0NiwiZXhwIjoxNjY5NzA4NjQ2fQ.QPtcBWZlOmE3it-_6dmvjEVjJG-20anbQcR5CIMTTRA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Title",
+							"value": "The Conmen",
+							"type": "text"
+						},
+						{
+							"key": "Genre",
+							"value": "Comedy",
+							"type": "text"
+						},
+						{
+							"key": "Release Date",
+							"value": "1/11/2019",
+							"type": "text"
+						},
+						{
+							"key": "Review",
+							"value": "Fake movie",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/update_movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"update_movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Movie",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwNTA0NiwianRpIjoiYzY0NzcyM2QtM2QzMS00MWViLTkwNjItNTc1OWJmZGM2ODIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwNTA0NiwiZXhwIjoxNjY5NzA4NjQ2fQ.QPtcBWZlOmE3it-_6dmvjEVjJG-20anbQcR5CIMTTRA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "ID",
+							"value": "6385b0153d14df402e84c942",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/delete_movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"delete_movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote-Downvote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwNTA0NiwianRpIjoiYzY0NzcyM2QtM2QzMS00MWViLTkwNjItNTc1OWJmZGM2ODIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwNTA0NiwiZXhwIjoxNjY5NzA4NjQ2fQ.QPtcBWZlOmE3it-_6dmvjEVjJG-20anbQcR5CIMTTRA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "ID",
+							"value": "638481f4aaf2f738008d6524",
+							"type": "text"
+						},
+						{
+							"key": "Vote",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/upvote-downvote",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"upvote-downvote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort Movies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwNTA0NiwianRpIjoiYzY0NzcyM2QtM2QzMS00MWViLTkwNjItNTc1OWJmZGM2ODIyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwNTA0NiwiZXhwIjoxNjY5NzA4NjQ2fQ.QPtcBWZlOmE3it-_6dmvjEVjJG-20anbQcR5CIMTTRA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "ID",
+							"value": "638481f4aaf2f738008d6524",
+							"type": "text"
+						},
+						{
+							"key": "Vote",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "Sort Type",
+							"value": "date",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/sortmovies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sortmovies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Fav Genre",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY2OTcwODcyNiwianRpIjoiOGIzMjViZTEtNmY3OC00MmEzLWIwNmYtNmNhZjJmOTVkMTA0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Implc3RpbiIsIm5iZiI6MTY2OTcwODcyNiwiZXhwIjoxNjY5NzEyMzI2fQ.ZP61LlP0-75PHWI42CSO2dBo5cVVuUocNHUFb_7kngg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Genre",
+							"value": "Action",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/setfavgenre",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"setfavgenre"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
